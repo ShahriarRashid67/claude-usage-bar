@@ -4,13 +4,15 @@ See how much of your Claude Code 5-hour and 7-day limits you've used in the VS C
 
 ![Claude Usage Bar in VS Code at normal, high, and critical usage levels](images/states.png)
 
+**[Download the latest release](https://github.com/ShahriarRashid67/claude-usage-bar/releases/latest)**
+
 ## Install
 
 You need VS Code 1.80 or newer, [Claude Code](https://code.claude.com/docs/en/setup) signed in with a subscription that reports usage limits, and [Node.js](https://nodejs.org/) available in your terminal. Claude Code and VS Code should run under the same local user account.
 
 ### 1. Install the VS Code extension
 
-Open **Releases** on this GitHub repository and download the latest `claude-usage-bar-*.vsix` and `claude-usage-bar-statusline.cjs` from **Assets**.
+Under **Assets** on the release page, download `claude-usage-bar-*.vsix` and `claude-usage-bar-statusline.cjs`.
 
 In VS Code, open **Extensions**, choose **⋯ → Install from VSIX…**, then select the downloaded VSIX.
 
