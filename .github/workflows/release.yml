@@ -1,0 +1,41 @@
+name: GitHub Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+
+      - name: Build the VSIX from the tagged source
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [[ "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo "The tag must match the package.json version."
+            exit 1
+          fi
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm exec --offline -- vsce package --no-dependencies --allow-missing-repository \
+            --baseContentUrl "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME/" \
+            --baseImagesUrl "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/raw/$GITHUB_REF_NAME/" \
+            --out "claude-usage-bar-$version.vsix"
+
+      - name: Publish the VSIX and status-line helper
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "claude-usage-bar-${GITHUB_REF_NAME#v}.vsix" claude-usage-bar-statusline.cjs \
+            --verify-tag --generate-notes

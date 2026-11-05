@@ -1,0 +1,164 @@
+{
+  "name": "claude-usage-bar",
+  "displayName": "Claude Usage Bar",
+  "description": "See your Claude Code 5-hour and 7-day limits at a glance in the status bar, with a details view that tells you whether you're on pace.",
+  "version": "1.1.0",
+  "publisher": "usage-bar-community",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1f2029",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "usage",
+    "rate limit",
+    "status bar"
+  ],
+  "main": "./extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE.txt",
+    "extension.js",
+    "lib/format.js",
+    "lib/panel.js",
+    "lib/usage.js",
+    "claude-usage-bar-statusline.cjs",
+    "images/icon.png"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true,
+      "description": "Reads usage numbers from your home folder and uses personal settings."
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeUsageBar.showDetails",
+        "title": "Show Usage Details",
+        "category": "Claude Usage Bar",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "claudeUsageBar.refresh",
+        "title": "Reload Local Usage",
+        "category": "Claude Usage Bar",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "claudeUsageBar.openSettings",
+        "title": "Open Settings",
+        "category": "Claude Usage Bar",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "claudeUsageBar.click",
+        "title": "Status Bar Click",
+        "category": "Claude Usage Bar"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "claudeUsageBar.click",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Usage Bar",
+      "properties": {
+        "claudeUsageBar.clickAction": {
+          "scope": "application",
+          "order": 0,
+          "type": "string",
+          "default": "details",
+          "enum": [
+            "details",
+            "refresh"
+          ],
+          "enumDescriptions": [
+            "Open the usage details panel.",
+            "Reload the latest usage reported by Claude Code."
+          ],
+          "description": "What happens when you click a usage bar in the status bar."
+        },
+        "claudeUsageBar.barStyle": {
+          "scope": "application",
+          "order": 1,
+          "type": "string",
+          "default": "blocks",
+          "enum": [
+            "blocks",
+            "shades",
+            "dots",
+            "squares",
+            "none"
+          ],
+          "enumDescriptions": [
+            "▰▰▰▱▱▱",
+            "███░░░",
+            "●●●○○○",
+            "■■■□□□",
+            "Percentage only, no bar."
+          ],
+          "description": "How the usage bars look in the status bar."
+        },
+        "claudeUsageBar.barWidth": {
+          "scope": "application",
+          "order": 2,
+          "type": "integer",
+          "default": 8,
+          "minimum": 3,
+          "maximum": 20,
+          "description": "Number of segments in each status bar usage bar."
+        },
+        "claudeUsageBar.showResetTime": {
+          "scope": "application",
+          "order": 3,
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Show the time until each window resets next to its bar, e.g. `5h ▰▰▰▱▱ 42% · 2h 13m`."
+        },
+        "claudeUsageBar.warningThreshold": {
+          "scope": "application",
+          "order": 4,
+          "type": "number",
+          "default": 70,
+          "minimum": 1,
+          "maximum": 100,
+          "markdownDescription": "Usage % at which a bar turns **yellow**."
+        },
+        "claudeUsageBar.criticalThreshold": {
+          "scope": "application",
+          "order": 5,
+          "type": "number",
+          "default": 90,
+          "minimum": 1,
+          "maximum": 100,
+          "markdownDescription": "Usage % at which a bar turns **red**. Must be at least `#claudeUsageBar.warningThreshold#`."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.1.0"
+  }
+}

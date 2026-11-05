@@ -1,0 +1,13 @@
+# build output
+*.vsix
+node_modules/
+
+# never commit secrets or local Claude data
+.env
+.env.*
+*.pem
+*.key
+.credentials.json
+usage-state.json
+.claude/
+.claude-usage-bar/
