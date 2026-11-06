@@ -1,17 +1,25 @@
 {
   "name": "claude-usage-bar",
   "displayName": "Claude Usage Bar",
-  "description": "See your Claude Code 5-hour and 7-day limits at a glance in the status bar, with a details view that tells you whether you're on pace.",
-  "version": "1.1.0",
+  "description": "See your Claude Code 5-hour and 7-day limits at a glance in the status bar. Install, click Connect, done.",
+  "version": "1.2.0",
   "publisher": "usage-bar-community",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShahriarRashid67/claude-usage-bar.git"
+  },
+  "homepage": "https://github.com/ShahriarRashid67/claude-usage-bar#readme",
+  "bugs": {
+    "url": "https://github.com/ShahriarRashid67/claude-usage-bar/issues"
+  },
   "icon": "images/icon.png",
   "galleryBanner": {
     "color": "#1f2029",
     "theme": "dark"
   },
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Other",
@@ -25,6 +33,9 @@
     "status bar"
   ],
   "main": "./extension.js",
+  "scripts": {
+    "vscode:uninstall": "node ./uninstall.cjs"
+  },
   "extensionKind": [
     "ui"
   ],
@@ -36,7 +47,9 @@
     "lib/panel.js",
     "lib/usage.js",
     "claude-usage-bar-statusline.cjs",
-    "images/icon.png"
+    "images/icon.png",
+    "lib/connect.js",
+    "uninstall.cjs"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -44,7 +57,7 @@
   "capabilities": {
     "untrustedWorkspaces": {
       "supported": true,
-      "description": "Reads usage numbers from your home folder and uses personal settings."
+      "description": "Works with local usage data and personal Claude Code settings."
     },
     "virtualWorkspaces": false
   },
@@ -55,6 +68,18 @@
         "title": "Show Usage Details",
         "category": "Claude Usage Bar",
         "icon": "$(dashboard)"
+      },
+      {
+        "command": "claudeUsageBar.connect",
+        "title": "Connect Claude Code",
+        "category": "Claude Usage Bar",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "claudeUsageBar.disconnect",
+        "title": "Disconnect Claude Code",
+        "category": "Claude Usage Bar",
+        "icon": "$(debug-disconnect)"
       },
       {
         "command": "claudeUsageBar.refresh",

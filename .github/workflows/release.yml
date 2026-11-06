@@ -30,12 +30,13 @@ jobs:
           npm exec --offline -- vsce package --no-dependencies --allow-missing-repository \
             --baseContentUrl "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME/" \
             --baseImagesUrl "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/raw/$GITHUB_REF_NAME/" \
-            --out "claude-usage-bar-$version.vsix"
+            --out claude-usage-bar.vsix
 
-      - name: Publish the VSIX and status-line helper
+      # A fixed file name keeps .../releases/latest/download/claude-usage-bar.vsix working.
+      - name: Publish the VSIX
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" \
-            "claude-usage-bar-${GITHUB_REF_NAME#v}.vsix" claude-usage-bar-statusline.cjs \
+            claude-usage-bar.vsix \
             --verify-tag --generate-notes

@@ -58,11 +58,13 @@ async function main() {
   writeSnapshot({ updated_at: Math.floor(Date.now() / 1000), five_hour, seven_day });
 }
 
-if (require.main === module) {
+function run() {
   main().catch(() => {
     console.error('Claude Usage Bar could not update its local usage file.');
     process.exitCode = 1;
   });
 }
 
-module.exports = { STATE_FILE, normalizeWindow };
+if (require.main === module) run();
+
+module.exports = { STATE_FILE, normalizeWindow, run };
